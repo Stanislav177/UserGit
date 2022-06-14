@@ -1,11 +1,14 @@
-package com.example.usergit
+package com.example.usergit.ui
 
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.usergit.data.LocalRepoUsersImpl
 import com.example.usergit.databinding.ActivityMainBinding
+import com.example.usergit.domain.RepoUsers
+import com.example.usergit.domain.UserEntity
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,9 +21,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        initViews()
 
-        initRecycler()
+    }
+
+    private fun initViews() {
         showProgress(false)
+        initRecycler()
         initViewBtn()
     }
 
@@ -42,15 +49,25 @@ class MainActivity : AppCompatActivity() {
         showProgress(true)
         repoUsers.getUsers(
             onSuccess = {
-                adapterUsers.setUsersDataList(it)
+                onDataLoaded(it)
                 showProgress(false)
             },
             onError = {
                 showProgress(false)
-                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                onError(it)
+
             }
         )
     }
+
+    private fun onDataLoaded(data: List<UserEntity>) {
+        adapterUsers.setUsersDataList(data)
+    }
+
+    private fun onError(throwable: Throwable) {
+        Toast.makeText(this, throwable.message, Toast.LENGTH_SHORT).show()
+    }
+
 
     private fun initRecycler() {
         binding.recyclerUsersGit.adapter = adapterUsers

@@ -1,4 +1,6 @@
-package com.example.usergit
+package com.example.usergit.domain
+
+import com.example.usergit.domain.UserEntity
 
 interface RepoUsers {
 

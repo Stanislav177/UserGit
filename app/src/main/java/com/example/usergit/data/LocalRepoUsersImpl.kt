@@ -1,8 +1,10 @@
-package com.example.usergit
+package com.example.usergit.data
 
 import android.os.Handler
 import android.os.Looper
 import androidx.core.os.postDelayed
+import com.example.usergit.domain.RepoUsers
+import com.example.usergit.domain.UserEntity
 
 class LocalRepoUsersImpl : RepoUsers {
 

@@ -1,9 +1,11 @@
-package com.example.usergit
+package com.example.usergit.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.example.usergit.R
+import com.example.usergit.domain.UserEntity
 import com.example.usergit.databinding.ItemUserGitBinding
 
 class ViewHolderUser(parent: ViewGroup) :

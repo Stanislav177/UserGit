@@ -1,7 +1,8 @@
-package com.example.usergit
+package com.example.usergit.ui
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.usergit.domain.UserEntity
 
 class AdapterUsers : RecyclerView.Adapter<ViewHolderUser>() {
 
