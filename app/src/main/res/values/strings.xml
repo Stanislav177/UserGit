@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">UserGit</string>
     <string name="loading_users">Загрузить пользователей</string>
+    <string name="id">id:</string>
 </resources>
