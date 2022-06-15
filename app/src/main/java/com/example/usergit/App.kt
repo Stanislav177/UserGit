@@ -7,7 +7,7 @@ import com.example.usergit.domain.repos.RepoUsers
 
 class App : Application() {
 
-    val userRepoUsers: RepoUsers by lazy { APIRepoUsersImpl() }
+    val userRepoUsers: RepoUsers by lazy { LocalRepoUsersImpl() }
 
 }
 
