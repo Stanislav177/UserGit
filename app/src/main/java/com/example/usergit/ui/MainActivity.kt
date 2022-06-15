@@ -5,24 +5,23 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.usergit.data.LocalRepoUsersImpl
+import com.example.usergit.app
 import com.example.usergit.databinding.ActivityMainBinding
-import com.example.usergit.domain.RepoUsers
 import com.example.usergit.domain.UserEntity
+import com.example.usergit.domain.repos.RepoUsers
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
 
     private val adapterUsers = AdapterUsers()
-    private val repoUsers: RepoUsers = LocalRepoUsersImpl()
+    private val repoUsers: RepoUsers by lazy { app.userRepoUsers }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initViews()
-
     }
 
     private fun initViews() {

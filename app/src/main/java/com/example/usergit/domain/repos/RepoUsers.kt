@@ -1,4 +1,4 @@
-package com.example.usergit.domain
+package com.example.usergit.domain.repos
 
 import com.example.usergit.domain.UserEntity
 
