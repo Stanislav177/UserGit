@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_main_activity">4dp</dimen>
+    <dimen name="width_avatar_recycler">85dp</dimen>
+    <dimen name="height_avatar_recycler">85dp</dimen>
+    <dimen name="margin_item_user_card_view">4dp</dimen>
+    <dimen name="margin_start_name_id_item_user">7dp</dimen>
+    <dimen name="text_size_name_user">23sp</dimen>
+    <dimen name="margin_end_text_id">3dp</dimen>
+</resources>
