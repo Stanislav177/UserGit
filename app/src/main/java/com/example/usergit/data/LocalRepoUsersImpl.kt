@@ -17,6 +17,7 @@ class LocalRepoUsersImpl : RepoUsers {
     override fun getUsers(onSuccess: (List<UserEntity>) -> Unit, onError: ((Throwable) -> Unit)?) {
         Handler(Looper.getMainLooper()).postDelayed(3000L) {
             onSuccess(data)
+            //onError?.invoke(Throwable("Ошибка"))
         }
     }
 }

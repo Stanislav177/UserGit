@@ -8,15 +8,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.usergit.app
 import com.example.usergit.databinding.ActivityMainBinding
 import com.example.usergit.domain.UserEntity
-import com.example.usergit.domain.repos.RepoUsers
 
 class MainActivity : AppCompatActivity(), UserContract.View {
 
     lateinit var binding: ActivityMainBinding
-
     private val adapterUsers = UsersAdapter()
-    private val repoUsers: RepoUsers by lazy { app.userRepoUsers }
-
     private lateinit var presenter: UserContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,9 +20,20 @@ class MainActivity : AppCompatActivity(), UserContract.View {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initViews()
-        presenter = UserPresenter(app.userRepoUsers)
+
+        presenter = extractPresenter()
         presenter.attach(this)
     }
+
+    private fun extractPresenter(): UserContract.Presenter {
+        return lastCustomNonConfigurationInstance as? UserContract.Presenter ?: UserPresenter(
+            app.userRepoUsers)
+    }
+
+    override fun onRetainCustomNonConfigurationInstance(): UserContract.Presenter {
+        return presenter
+    }
+
 
     override fun onDestroy() {
         presenter.detach()
@@ -41,7 +48,7 @@ class MainActivity : AppCompatActivity(), UserContract.View {
 
     private fun initViewBtn() {
         binding.loadingUsersGitBtn.setOnClickListener {
-        presenter.onRefresh()
+            presenter.onRefresh()
         }
     }
 
