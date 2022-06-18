@@ -8,7 +8,7 @@ import com.example.usergit.R
 import com.example.usergit.domain.UserEntity
 import com.example.usergit.databinding.ItemUserGitBinding
 
-class ViewHolderUser(parent: ViewGroup) :
+class UserViewHolder(parent: ViewGroup) :
     RecyclerView.ViewHolder(LayoutInflater.from(parent.context)
         .inflate(R.layout.item_user_git, parent, false)) {
 

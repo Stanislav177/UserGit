@@ -10,18 +10,27 @@ import com.example.usergit.databinding.ActivityMainBinding
 import com.example.usergit.domain.UserEntity
 import com.example.usergit.domain.repos.RepoUsers
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), UserContract.View {
 
     lateinit var binding: ActivityMainBinding
 
-    private val adapterUsers = AdapterUsers()
+    private val adapterUsers = UsersAdapter()
     private val repoUsers: RepoUsers by lazy { app.userRepoUsers }
+
+    private lateinit var presenter: UserContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initViews()
+        presenter = UserPresenter(app.userRepoUsers)
+        presenter.attach(this)
+    }
+
+    override fun onDestroy() {
+        presenter.detach()
+        super.onDestroy()
     }
 
     private fun initViews() {
@@ -32,41 +41,24 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViewBtn() {
         binding.loadingUsersGitBtn.setOnClickListener {
-            loadingUser()
+        presenter.onRefresh()
         }
     }
 
-    private fun showProgress(b: Boolean) {
+    override fun showProgress(b: Boolean) {
         with(binding) {
             progressBar.isVisible = b
             recyclerUsersGit.isVisible = !b
         }
-
     }
 
-    private fun loadingUser() {
-        showProgress(true)
-        repoUsers.getUsers(
-            onSuccess = {
-                onDataLoaded(it)
-                showProgress(false)
-            },
-            onError = {
-                showProgress(false)
-                onError(it)
-
-            }
-        )
-    }
-
-    private fun onDataLoaded(data: List<UserEntity>) {
+    override fun showUsers(data: List<UserEntity>) {
         adapterUsers.setUsersDataList(data)
     }
 
-    private fun onError(throwable: Throwable) {
+    override fun showError(throwable: Throwable) {
         Toast.makeText(this, throwable.message, Toast.LENGTH_SHORT).show()
     }
-
 
     private fun initRecycler() {
         binding.recyclerUsersGit.adapter = adapterUsers

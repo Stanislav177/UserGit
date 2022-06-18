@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.usergit.domain.UserEntity
 
-class AdapterUsers : RecyclerView.Adapter<ViewHolderUser>() {
+class UsersAdapter : RecyclerView.Adapter<UserViewHolder>() {
 
     private var usersDataList = mutableListOf<UserEntity>()
 
@@ -23,10 +23,10 @@ class AdapterUsers : RecyclerView.Adapter<ViewHolderUser>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        ViewHolderUser(parent)
+        UserViewHolder(parent)
 
 
-    override fun onBindViewHolder(holder: ViewHolderUser, position: Int) {
+    override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
