@@ -13,10 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UserGit">
         <activity
-            android:name=".DetailingUserActivity"
+            android:name=".ui.detailingUser.DetailingUserActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.listUsers.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,5 +1,6 @@
-package com.example.usergit.ui
+package com.example.usergit.ui.listUsers
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -8,11 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.usergit.app
 import com.example.usergit.databinding.ActivityMainBinding
 import com.example.usergit.domain.UserEntity
+import com.example.usergit.ui.detailingUser.DetailingUserActivity
 
-class MainActivity : AppCompatActivity(), UserContract.View {
+class MainActivity : AppCompatActivity(), UserContract.View, OnClickListenerUser {
 
     lateinit var binding: ActivityMainBinding
-    private val adapterUsers = UsersAdapter()
+    private val adapterUsers = UsersAdapter(this)
     private lateinit var presenter: UserContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,5 +72,11 @@ class MainActivity : AppCompatActivity(), UserContract.View {
     private fun initRecycler() {
         binding.recyclerUsersGit.adapter = adapterUsers
         binding.recyclerUsersGit.layoutManager = LinearLayoutManager(this)
+    }
+
+    override fun onClick(user: UserEntity) {
+        Toast.makeText(this, user.nickname, Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, DetailingUserActivity::class.java)
+        startActivity(intent)
     }
 }

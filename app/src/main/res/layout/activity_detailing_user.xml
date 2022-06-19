@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".DetailingUserActivity">
+    tools:context=".ui.detailingUser.DetailingUserActivity">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -63,6 +63,7 @@
         android:gravity="bottom|center">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/on_click_web_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/user_web_url" />

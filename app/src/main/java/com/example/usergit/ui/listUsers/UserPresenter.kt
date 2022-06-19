@@ -1,4 +1,4 @@
-package com.example.usergit.ui
+package com.example.usergit.ui.listUsers
 
 import com.example.usergit.domain.UserEntity
 import com.example.usergit.domain.repos.RepoUsers

@@ -1,14 +1,14 @@
-package com.example.usergit.ui
+package com.example.usergit.ui.listUsers
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.usergit.R
-import com.example.usergit.domain.UserEntity
 import com.example.usergit.databinding.ItemUserGitBinding
+import com.example.usergit.domain.UserEntity
 
-class UserViewHolder(parent: ViewGroup) :
+class UserViewHolder(parent: ViewGroup, private val myOnclickUser: OnClickListenerUser) :
     RecyclerView.ViewHolder(LayoutInflater.from(parent.context)
         .inflate(R.layout.item_user_git, parent, false)) {
 
@@ -20,5 +20,9 @@ class UserViewHolder(parent: ViewGroup) :
             idUser.text = userEntity.id.toString()
             nickNameUser.text = userEntity.nickname
         }
+        itemView.setOnClickListener {
+            myOnclickUser.onClick(userEntity)
+        }
     }
+
 }
