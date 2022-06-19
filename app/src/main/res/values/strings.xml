@@ -2,4 +2,6 @@
     <string name="app_name">UserGit</string>
     <string name="loading_users">Загрузить пользователей</string>
     <string name="id">id:</string>
+    <string name="id">id:</string>
+    <string name="user_web_url">Перейти на веб-страницу пользователя</string>
 </resources>

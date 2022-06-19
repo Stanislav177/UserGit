@@ -7,4 +7,5 @@
     <dimen name="margin_start_name_id_item_user">7dp</dimen>
     <dimen name="text_size_name_user">23sp</dimen>
     <dimen name="margin_end_text_id">3dp</dimen>
+    <dimen name="width_height_image_user_detailing">170dp</dimen>
 </resources>
