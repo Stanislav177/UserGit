@@ -7,7 +7,6 @@ interface UserContract {
     interface Presenter {
         fun attach(view: View)
         fun detach()
-
         fun onRefresh()
 
     }

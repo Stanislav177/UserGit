@@ -77,6 +77,7 @@ class MainActivity : AppCompatActivity(), UserContract.View, OnClickListenerUser
     override fun onClick(user: UserEntity) {
         Toast.makeText(this, user.nickname, Toast.LENGTH_SHORT).show()
         val intent = Intent(this, DetailingUserActivity::class.java)
+        intent.putExtra("KEY", user)
         startActivity(intent)
     }
 }

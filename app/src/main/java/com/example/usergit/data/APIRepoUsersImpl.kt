@@ -51,7 +51,7 @@ class APIRepoUsersImpl : RepoUsers, GitApiRequest {
         val list = mutableListOf<UserEntity>()
         val sizeDTO = it.users.size
         for (i in 0 until sizeDTO) {
-            list.add(UserEntity(it.users[i][i].id, it.users[i][i].login, it.users[i][i].avatarURL))
+            //list.add(UserEntity(it.users[i][i].id, it.users[i][i].login, it.users[i][i].avatarURL))
         }
         return list
 
