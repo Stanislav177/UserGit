@@ -8,4 +8,11 @@
     <dimen name="text_size_name_user">23sp</dimen>
     <dimen name="margin_end_text_id">3dp</dimen>
     <dimen name="width_height_image_user_detailing">170dp</dimen>
+    <dimen name="layout_margin_top_end_id">30dp</dimen>
+    <dimen name="text_size_name_detailing_activity">27sp</dimen>
+    <dimen name="layout_margin_bottom_btn_web_detailing_activity">50dp</dimen>
+    <dimen name="text_size_user_info_detailing_activity">18sp</dimen>
+    <dimen name="text_size_name_pos_user">18sp</dimen>
+    <dimen name="layout_margin_bottom_lines_user_activity">5dp</dimen>
+    <dimen name="text_size_id_detailing_activity">18sp</dimen>
 </resources>

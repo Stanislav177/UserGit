@@ -3,4 +3,7 @@
     <string name="loading_users">Загрузить пользователей</string>
     <string name="id">id:</string>
     <string name="user_web_url">Перейти на веб-страницу пользователя</string>
+    <string name="login">Login:</string>
+    <string name="location">Location:</string>
+    <string name="public_repo">Public_repo:</string>
 </resources>

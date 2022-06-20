@@ -10,8 +10,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginTop="@dimen/layout_margin_top_end_id"
+        android:layout_marginEnd="@dimen/layout_margin_top_end_id"
         android:orientation="horizontal">
 
 
@@ -19,14 +19,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/id"
-            android:textSize="18sp" />
+            android:textSize="@dimen/text_size_id_detailing_activity" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/id_user_detailing_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1111"
-            android:textSize="18sp" />
+            tools:text="1111"
+            android:textSize="@dimen/text_size_id_detailing_activity" />
 
     </LinearLayout>
 
@@ -51,9 +51,9 @@
             android:id="@+id/name_user_detailing_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="login"
+            tools:text="Name"
             android:textColor="@color/black"
-            android:textSize="27sp"
+            android:textSize="@dimen/text_size_name_detailing_activity"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -66,60 +66,60 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="@dimen/layout_margin_bottom_lines_user_activity"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="login: "
-                android:textSize="18sp" />
+                android:text="@string/login"
+                android:textSize="@dimen/text_size_name_pos_user" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/login_user_detailing_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                android:textSize="@dimen/text_size_user_info_detailing_activity" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="@dimen/layout_margin_bottom_lines_user_activity"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Location: "
-                android:textSize="18sp" />
+                android:text="@string/location"
+                android:textSize="@dimen/text_size_name_pos_user" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/location_user_detailing_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                android:textSize="@dimen/text_size_user_info_detailing_activity" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="@dimen/layout_margin_bottom_lines_user_activity"
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Public_repo: "
-                android:textSize="18sp" />
+                android:text="@string/public_repo"
+                android:textSize="@dimen/text_size_name_pos_user" />
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/public_repo_user_detailing_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp" />
+                android:textSize="@dimen/text_size_user_info_detailing_activity" />
 
         </LinearLayout>
 
