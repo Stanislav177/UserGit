@@ -1,15 +1,15 @@
 package com.example.usergit.ui.listUsers
 
 import com.example.usergit.domain.UserEntity
-import com.example.usergit.domain.repos.RepoUsers
+import com.example.usergit.domain.repos.RepoUsersList
 
-class UserPresenter(private val repo: RepoUsers) : UserContract.Presenter {
+class UserPresenter(private val repo: RepoUsersList) : UserContract.Presenter {
 
     private var view: UserContract.View? = null
     private var dataListPresenter: List<UserEntity>? = null
-    private var inProgress: Boolean = false
+    private var inProgress = false
 
-    private var flagOnRefresh: Boolean = true
+    private var flagOnRefresh = true
 
     override fun attach(view: UserContract.View) {
         this.view = view
@@ -29,7 +29,7 @@ class UserPresenter(private val repo: RepoUsers) : UserContract.Presenter {
 
     }
 
-    private fun loadingUser(repo: RepoUsers) {
+    private fun loadingUser(repo: RepoUsersList) {
         showProgress(true)
         inProgress = true
         repo.getUsers(

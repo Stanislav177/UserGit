@@ -1,11 +1,11 @@
 package com.example.usergit.retrofit
 
-import com.example.usergit.DTOUsersGit
+import com.example.usergit.DTOListUsersGit
 import retrofit2.Callback
 
 interface GitApiRequest {
 
     fun getUsersGitList(
-        callback: Callback<DTOUsersGit>
+        callback: Callback<List<DTOListUsersGit>>,
     )
 }

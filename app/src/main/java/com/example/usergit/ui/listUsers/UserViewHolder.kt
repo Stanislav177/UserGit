@@ -18,10 +18,10 @@ class UserViewHolder(parent: ViewGroup, private val myOnclickUser: OnClickListen
         with(binding) {
             avatarUser.load(userEntity.urlAvatar)
             idUser.text = userEntity.id.toString()
-            nickNameUser.text = userEntity.nickname
+            nickNameUser.text = userEntity.login
         }
         itemView.setOnClickListener {
-            myOnclickUser.onClick(userEntity)
+            myOnclickUser.onClick(userEntity.login)
         }
     }
 

@@ -4,7 +4,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.usergit.domain.UserEntity
 
-class UsersAdapter(private val myOnclickUser: OnClickListenerUser) : RecyclerView.Adapter<UserViewHolder>() {
+class UsersAdapter(private val myOnclickUser: OnClickListenerUser) :
+    RecyclerView.Adapter<UserViewHolder>() {
 
     private var usersDataList = mutableListOf<UserEntity>()
 
@@ -23,7 +24,7 @@ class UsersAdapter(private val myOnclickUser: OnClickListenerUser) : RecyclerVie
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        UserViewHolder(parent,this.myOnclickUser)
+        UserViewHolder(parent, this.myOnclickUser)
 
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {

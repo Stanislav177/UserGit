@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), UserContract.View, OnClickListenerUser
 
     private fun extractPresenter(): UserContract.Presenter {
         return lastCustomNonConfigurationInstance as? UserContract.Presenter ?: UserPresenter(
-            app.userRepoUsers)
+            app.repoUsersList)
     }
 
     override fun onRetainCustomNonConfigurationInstance(): UserContract.Presenter {
@@ -74,10 +74,10 @@ class MainActivity : AppCompatActivity(), UserContract.View, OnClickListenerUser
         binding.recyclerUsersGit.layoutManager = LinearLayoutManager(this)
     }
 
-    override fun onClick(user: UserEntity) {
-        Toast.makeText(this, user.nickname, Toast.LENGTH_SHORT).show()
+    override fun onClick(loginUser: String) {
+        Toast.makeText(this, loginUser, Toast.LENGTH_SHORT).show()
         val intent = Intent(this, DetailingUserActivity::class.java)
-        intent.putExtra("KEY", user)
+        intent.putExtra("KEY", loginUser)
         startActivity(intent)
     }
 }
