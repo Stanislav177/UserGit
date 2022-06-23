@@ -8,7 +8,6 @@ import coil.load
 import com.example.usergit.DTODetailingUserGit
 import com.example.usergit.app
 import com.example.usergit.databinding.ActivityDetailingUserBinding
-import com.example.usergit.domain.UserEntityDetailing
 
 class DetailingUserActivity : AppCompatActivity(), DetailingUserContract.View {
 

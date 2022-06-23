@@ -1,7 +1,6 @@
 package com.example.usergit.ui.detailingUser
 
 import com.example.usergit.DTODetailingUserGit
-import com.example.usergit.domain.UserEntityDetailing
 import com.example.usergit.domain.repos.RepoUsersDetailing
 
 class DetailingUserPresenter(private val repoUsersDetailing: RepoUsersDetailing) :

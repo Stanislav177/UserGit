@@ -11,11 +11,11 @@ import com.example.usergit.databinding.ActivityMainBinding
 import com.example.usergit.domain.UserEntity
 import com.example.usergit.ui.detailingUser.DetailingUserActivity
 
-class MainActivity : AppCompatActivity(), UserContract.View, OnClickListenerUser {
+class MainActivity : AppCompatActivity(), OnClickListenerUser {
 
     lateinit var binding: ActivityMainBinding
     private val adapterUsers = UsersAdapter(this)
-    private lateinit var presenter: UserContract.Presenter
+    private lateinit var viewModelUsers: UserContract.ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,23 +23,29 @@ class MainActivity : AppCompatActivity(), UserContract.View, OnClickListenerUser
         setContentView(binding.root)
         initViews()
 
-        presenter = extractPresenter()
-        presenter.attach(this)
+        initViewModel()
     }
 
-    private fun extractPresenter(): UserContract.Presenter {
-        return lastCustomNonConfigurationInstance as? UserContract.Presenter ?: UserPresenter(
+    private fun initViewModel() {
+        viewModelUsers = extractViewModel()
+        viewModelUsers.usersLiveData.observe(this) {
+            showUsers(it)
+        }
+        viewModelUsers.errorLiveData.observe(this) {
+            showError(it)
+        }
+        viewModelUsers.progressLiveData.observe(this) {
+            showProgress(it)
+        }
+    }
+
+    private fun extractViewModel(): UserContract.ViewModel {
+        return lastCustomNonConfigurationInstance as? UserContract.ViewModel ?: UserViewModel(
             app.repoUsersList)
     }
 
-    override fun onRetainCustomNonConfigurationInstance(): UserContract.Presenter {
-        return presenter
-    }
-
-
-    override fun onDestroy() {
-        presenter.detach()
-        super.onDestroy()
+    override fun onRetainCustomNonConfigurationInstance(): UserContract.ViewModel {
+        return viewModelUsers
     }
 
     private fun initViews() {
@@ -50,22 +56,22 @@ class MainActivity : AppCompatActivity(), UserContract.View, OnClickListenerUser
 
     private fun initViewBtn() {
         binding.loadingUsersGitBtn.setOnClickListener {
-            presenter.onRefresh()
+            viewModelUsers.onRefresh()
         }
     }
 
-    override fun showProgress(b: Boolean) {
+    private fun showProgress(b: Boolean) {
         with(binding) {
             progressBar.isVisible = b
             recyclerUsersGit.isVisible = !b
         }
     }
 
-    override fun showUsers(data: List<UserEntity>) {
+    private fun showUsers(data: List<UserEntity>) {
         adapterUsers.setUsersDataList(data)
     }
 
-    override fun showError(throwable: Throwable) {
+    private fun showError(throwable: Throwable) {
         Toast.makeText(this, throwable.message, Toast.LENGTH_SHORT).show()
     }
 

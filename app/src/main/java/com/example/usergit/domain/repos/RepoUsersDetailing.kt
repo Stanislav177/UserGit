@@ -1,7 +1,6 @@
 package com.example.usergit.domain.repos
 
 import com.example.usergit.DTODetailingUserGit
-import com.example.usergit.domain.UserEntityDetailing
 
 interface RepoUsersDetailing {
 
