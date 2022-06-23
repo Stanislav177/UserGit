@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.usergit.domain.UserEntity
 import com.example.usergit.domain.repos.RepoUsersList
 
-class UserViewModel(private val repo: RepoUsersList) : UserContract.ViewModel {
+class UsersViewModel(private val repo: RepoUsersList) : UserContract.ViewModel {
 
     private var inProgress = false
 

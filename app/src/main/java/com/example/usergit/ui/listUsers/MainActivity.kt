@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerUser {
     }
 
     private fun extractViewModel(): UserContract.ViewModel {
-        return lastCustomNonConfigurationInstance as? UserContract.ViewModel ?: UserViewModel(
+        return lastCustomNonConfigurationInstance as? UserContract.ViewModel ?: UsersViewModel(
             app.repoUsersList)
     }
 

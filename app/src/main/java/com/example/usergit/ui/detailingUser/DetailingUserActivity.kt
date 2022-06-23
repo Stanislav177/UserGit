@@ -4,34 +4,47 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import coil.load
 import com.example.usergit.DTODetailingUserGit
-import com.example.usergit.app
 import com.example.usergit.databinding.ActivityDetailingUserBinding
 
-class DetailingUserActivity : AppCompatActivity(), DetailingUserContract.View {
+class DetailingUserActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityDetailingUserBinding
-    lateinit var presenter: DetailingUserContract.Presenter
-
     private var uri: Uri? = null
     private var loginUser: String? = null
+
+    private val liveData: DetailingViewModel by lazy {
+        ViewModelProvider(this).get(DetailingViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailingUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
         loginUser = intent.getStringExtra("KEY")
-        presenter = extractPresenter()
-        presenter.loginUser(loginUser!!)
-        presenter.attach(this)
+
+        liveData.getLiveData().observe(this, {
+            renderData(it)
+        })
+        liveData.loading(loginUser!!)
 
         onOpenPageUser()
     }
 
-    private fun extractPresenter(): DetailingUserContract.Presenter {
-        return lastNonConfigurationInstance as? DetailingUserContract.Presenter
-            ?: DetailingUserPresenter(app.repoUsersDetailing)
+    private fun renderData(appState: AppState) {
+        when (appState) {
+            is AppState.Error -> {
+
+            }
+            is AppState.LoadingProgress -> {
+
+            }
+            is AppState.Success -> {
+                showUser(appState.dtoDetailingUserGit)
+            }
+        }
     }
 
     private fun onOpenPageUser() {
@@ -42,11 +55,11 @@ class DetailingUserActivity : AppCompatActivity(), DetailingUserContract.View {
     }
 
 
-    override fun showError(t: Throwable) {
+    fun showError(t: Throwable) {
         TODO("Not yet implemented")
     }
 
-    override fun showUser(user: DTODetailingUserGit) {
+    private fun showUser(user: DTODetailingUserGit) {
         with(binding) {
             uri = Uri.parse(user.url)
             nameUserDetailingActivity.text = user.name
@@ -59,7 +72,7 @@ class DetailingUserActivity : AppCompatActivity(), DetailingUserContract.View {
 
     }
 
-    override fun showProgress(b: Boolean) {
+    fun showProgress(b: Boolean) {
         TODO("Not yet implemented")
     }
 
