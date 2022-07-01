@@ -4,10 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.usergit.domain.UserEntity
 import com.example.usergit.domain.repos.RepoUsersList
+import com.example.usergit.utils.SingleEventLiveData
 
 class UsersViewModel(private val repo: RepoUsersList) : UserContract.ViewModel {
-
-    private var inProgress = false
 
     private var flagOnRefresh = true
 
@@ -15,13 +14,11 @@ class UsersViewModel(private val repo: RepoUsersList) : UserContract.ViewModel {
         if (flagOnRefresh)
             loadingUser(repo)
         flagOnRefresh = false
-
     }
 
-    private fun loadingUser(repo: RepoUsersList) {
+    private fun loadingUser(repoLoading: RepoUsersList) {
         showProgress(true)
-
-        repo.getUsers(
+        repoLoading.getUsersList(
             onSuccess = {
                 showProgress(false)
                 showListUser(it)
@@ -33,7 +30,7 @@ class UsersViewModel(private val repo: RepoUsersList) : UserContract.ViewModel {
         )
     }
 
-   private fun showListUser(listUser: List<UserEntity>) {
+    private fun showListUser(listUser: List<UserEntity>) {
         usersLiveData.mutable().postValue(listUser)
     }
 
@@ -45,7 +42,7 @@ class UsersViewModel(private val repo: RepoUsersList) : UserContract.ViewModel {
         progressLiveData.mutable().postValue(progress)
     }
 
-    override val errorLiveData: LiveData<Throwable> = MutableLiveData()
+    override val errorLiveData: LiveData<Throwable> = SingleEventLiveData()
 
     override val usersLiveData: LiveData<List<UserEntity>> = MutableLiveData()
 

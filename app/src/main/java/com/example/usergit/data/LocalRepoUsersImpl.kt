@@ -23,7 +23,7 @@ class LocalRepoUsersImpl : RepoUsersList {
             "https://github.com/pjhyett")
     )
 
-    override fun getUsers(
+    override fun getUsersList(
         onSuccess: (List<UserEntity>) -> Unit,
         onError: ((Throwable) -> Unit)?,
     ) {

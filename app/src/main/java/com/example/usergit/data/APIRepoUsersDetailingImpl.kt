@@ -1,46 +1,50 @@
 package com.example.usergit.data
 
-import com.example.usergit.DTODetailingUserGit
-import com.example.usergit.domain.repos.RepoUsersDetailing
-import com.example.usergit.retrofit.RetrofitAPI
+import com.example.usergit.data.retrofit.RetrofitAPI
+import com.example.usergit.domain.repos.RepoUserDetailing
+import com.example.usergit.ui.detailingUser.appState.AppStateDetailingUser
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class APIRepoUsersDetailingImpl : RepoUsersDetailing {
+class APIRepoUsersDetailingImpl : RepoUserDetailing {
 
     private val requestAPI by lazy { RetrofitAPI.getStartRetrofitAPI() }
 
-    private var loginUser: String? = null
+    private lateinit var loginUser: String
 
-    override fun getUsers(
-        onSuccess: (DTODetailingUserGit) -> Unit,
-        onError: ((Throwable) -> Unit)?,
+    override fun getDetailingUser(
+        onSuccess: (AppStateDetailingUser) -> Unit,
+        onError: ((Throwable) -> Unit)?
     ) {
-        requestAPI.getDetailingUsersGit(loginUser!!)
-            .enqueue(object : Callback<DTODetailingUserGit> {
-                override fun onResponse(
-                    call: Call<DTODetailingUserGit>,
-                    response: Response<DTODetailingUserGit>,
-                ) {
-                    if (response.isSuccessful) {
-                        if (response.body() == null) {
-                            //Error
-                        } else {
-                            response.body()?.let {
-                                onSuccess(it)
-                            }
+        requestAPI.getDetailingUsersGit(loginUser).enqueue(object : Callback<DTODetailingUserGit> {
+            override fun onResponse(
+                call: Call<DTODetailingUserGit>,
+                response: Response<DTODetailingUserGit>,
+            ) {
+                if (response.isSuccessful) {
+                    if (response.body() == null) {
+                        //ERROR
+                    } else {
+                        response.body()?.let {
+                            onSuccess(AppStateDetailingUser.Success(it))
+                            onError!!.invoke(Throwable("JJJJJJJJJJJ"))
                         }
                     }
-                }
 
-                override fun onFailure(call: Call<DTODetailingUserGit>, t: Throwable) {
-                    val error = t.message
+                } else {
+
                 }
-            })
+            }
+
+            override fun onFailure(call: Call<DTODetailingUserGit>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 
-    override fun setLoginUser(login: String) {
+    override fun getLoginUser(login: String) {
         loginUser = login
     }
 }

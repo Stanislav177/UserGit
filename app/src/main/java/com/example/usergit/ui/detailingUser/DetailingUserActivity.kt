@@ -3,21 +3,24 @@ package com.example.usergit.ui.detailingUser
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
+import androidx.core.view.isVisible
 import coil.load
-import com.example.usergit.DTODetailingUserGit
+import com.example.usergit.data.DTODetailingUserGit
 import com.example.usergit.databinding.ActivityDetailingUserBinding
+import com.example.usergit.ui.detailingUser.appState.AppStateDetailingUser
 
 class DetailingUserActivity : AppCompatActivity() {
-
     lateinit var binding: ActivityDetailingUserBinding
     private var uri: Uri? = null
     private var loginUser: String? = null
 
-    private val liveData: DetailingViewModel by lazy {
-        ViewModelProvider(this).get(DetailingViewModel::class.java)
-    }
+//    private val viewModel: DetailingViewModel by lazy {
+//        ViewModelProvider(this).get(DetailingViewModel::class.java)
+//    }
+
+    private lateinit var viewModel: DetailingViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,23 +28,36 @@ class DetailingUserActivity : AppCompatActivity() {
         setContentView(binding.root)
         loginUser = intent.getStringExtra("KEY")
 
-        liveData.getLiveData().observe(this, {
-            renderData(it)
-        })
-        liveData.loading(loginUser!!)
-
+        viewModel = extractViewModel()
+        initViewModel()
         onOpenPageUser()
     }
 
-    private fun renderData(appState: AppState) {
+    override fun onRetainCustomNonConfigurationInstance(): DetailingViewModel {
+        return viewModel
+    }
+
+    private fun extractViewModel(): DetailingViewModel {
+        return lastCustomNonConfigurationInstance as? DetailingViewModel
+            ?: DetailingViewModel()
+    }
+
+    private fun initViewModel() {
+        viewModel.getLiveData().observe(this, {
+            renderData(it)
+        })
+        viewModel.error.observe(this,{
+            showError(it)
+        })
+        viewModel.startRequest(loginUser!!)
+    }
+
+    private fun renderData(appState: AppStateDetailingUser) {
         when (appState) {
-            is AppState.Error -> {
-
+            is AppStateDetailingUser.LoadingProgress -> {
+                showProgress(appState.progress)
             }
-            is AppState.LoadingProgress -> {
-
-            }
-            is AppState.Success -> {
+            is AppStateDetailingUser.Success -> {
                 showUser(appState.dtoDetailingUserGit)
             }
         }
@@ -55,8 +71,8 @@ class DetailingUserActivity : AppCompatActivity() {
     }
 
 
-    fun showError(t: Throwable) {
-        TODO("Not yet implemented")
+    private fun showError(t: Throwable) {
+        Toast.makeText(this, t.message, Toast.LENGTH_SHORT).show()
     }
 
     private fun showUser(user: DTODetailingUserGit) {
@@ -69,11 +85,12 @@ class DetailingUserActivity : AppCompatActivity() {
             publicRepoUserDetailingActivity.text = user.publicRepos.toString()
             userAvatarDetailingActivity.load(user.avatarURL)
         }
-
     }
 
-    fun showProgress(b: Boolean) {
-        TODO("Not yet implemented")
+    private fun showProgress(b: Boolean) {
+        with(binding) {
+            inProgressBar!!.isVisible = b
+        }
     }
 
 }

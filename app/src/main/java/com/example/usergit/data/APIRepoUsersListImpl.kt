@@ -1,9 +1,8 @@
 package com.example.usergit.data
 
-import com.example.usergit.DTOListUsersGit
 import com.example.usergit.domain.UserEntity
 import com.example.usergit.domain.repos.RepoUsersList
-import com.example.usergit.retrofit.RetrofitAPI
+import com.example.usergit.data.retrofit.RetrofitAPI
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -12,7 +11,7 @@ class APIRepoUsersListImpl : RepoUsersList {
 
     private val requestAPI by lazy { RetrofitAPI.getStartRetrofitAPI() }
 
-    override fun getUsers(
+    override fun getUsersList(
         onSuccess: (List<UserEntity>) -> Unit,
         onError: ((Throwable) -> Unit)?,
     ) {
@@ -28,6 +27,7 @@ class APIRepoUsersListImpl : RepoUsersList {
                         } else {
                             response.body()?.let {
                                 onSuccess(converterDTOtoListUsers(it))
+                                onError!!.invoke(Throwable("Error"))
                             }
                         }
                     }

@@ -1,7 +1,7 @@
-package com.example.usergit.retrofit
+package com.example.usergit.data.retrofit
 
-import com.example.usergit.DTODetailingUserGit
-import com.example.usergit.DTOListUsersGit
+import com.example.usergit.data.DTODetailingUserGit
+import com.example.usergit.data.DTOListUsersGit
 import com.example.usergit.const.URL_API_END_POINT_USERS
 import com.example.usergit.const.URL_API_END_POINT_USERS_DETAILING
 import retrofit2.Call

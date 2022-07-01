@@ -1,4 +1,4 @@
-package com.example.usergit.retrofit
+package com.example.usergit.data.retrofit
 
 import com.example.usergit.const.URL_API_BASE
 import com.google.gson.GsonBuilder
