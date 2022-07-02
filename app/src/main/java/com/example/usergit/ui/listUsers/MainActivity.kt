@@ -10,12 +10,14 @@ import com.example.usergit.app
 import com.example.usergit.databinding.ActivityMainBinding
 import com.example.usergit.domain.UserEntity
 import com.example.usergit.ui.detailingUser.DetailingUserActivity
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class MainActivity : AppCompatActivity(), OnClickListenerUser {
 
     lateinit var binding: ActivityMainBinding
     private val adapterUsers = UsersAdapter(this)
     private lateinit var viewModelUsers: UserContract.ViewModel
+    private val viewModelDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,15 +30,25 @@ class MainActivity : AppCompatActivity(), OnClickListenerUser {
 
     private fun initViewModel() {
         viewModelUsers = extractViewModel()
-        viewModelUsers.usersLiveData.observe(this) {
-            showUsers(it)
-        }
-        viewModelUsers.errorLiveData.observe(this) {
-            showError(it)
-        }
-        viewModelUsers.progressLiveData.observe(this) {
-            showProgress(it)
-        }
+
+        viewModelDisposable.addAll(
+            viewModelUsers.usersLiveData.subscribe() {
+                showUsers(it)
+            },
+            viewModelUsers.errorLiveData.subscribe() {
+                showError(it)
+            },
+            viewModelUsers.progressLiveData.subscribe() {
+                showProgress(it)
+            }
+        )
+
+
+    }
+
+    override fun onDestroy() {
+        viewModelDisposable.dispose()
+        super.onDestroy()
     }
 
     private fun extractViewModel(): UserContract.ViewModel {

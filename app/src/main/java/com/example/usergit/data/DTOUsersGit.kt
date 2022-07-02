@@ -1,6 +1,7 @@
 package com.example.usergit.data
 
 import android.os.Parcelable
+import com.example.usergit.domain.UserEntity
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -11,9 +12,11 @@ data class DTOListUsersGit(
 
     @SerializedName("avatar_url")
     val avatarURL: String,
-
     val url: String,
-) : Parcelable
+) : Parcelable {
+    fun toUserEntity() = UserEntity(id,login,avatarURL,url)
+}
+
 
 @Parcelize
 data class DTODetailingUserGit(

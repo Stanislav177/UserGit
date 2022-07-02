@@ -1,15 +1,14 @@
 package com.example.usergit.ui.listUsers
 
-import androidx.lifecycle.LiveData
 import com.example.usergit.domain.UserEntity
+import io.reactivex.rxjava3.core.Observable
 
 interface UserContract {
 
     interface ViewModel {
-        val errorLiveData: LiveData<Throwable>
-        val usersLiveData: LiveData<List<UserEntity>>
-        val progressLiveData: LiveData<Boolean>
+        val errorLiveData: Observable<Throwable>
+        val usersLiveData: Observable<List<UserEntity>>
+        val progressLiveData: Observable<Boolean>
         fun onRefresh()
-
     }
 }

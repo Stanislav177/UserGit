@@ -1,10 +1,12 @@
 package com.example.usergit.ui.listUsers
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.usergit.domain.UserEntity
 import com.example.usergit.domain.repos.RepoUsersList
-import com.example.usergit.utils.SingleEventLiveData
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.kotlin.subscribeBy
+import io.reactivex.rxjava3.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.Subject
 
 class UsersViewModel(private val repo: RepoUsersList) : UserContract.ViewModel {
 
@@ -18,37 +20,39 @@ class UsersViewModel(private val repo: RepoUsersList) : UserContract.ViewModel {
 
     private fun loadingUser(repoLoading: RepoUsersList) {
         showProgress(true)
-        repoLoading.getUsersList(
-            onSuccess = {
-                showProgress(false)
-                showListUser(it)
-            },
-            onError = {
-                showProgress(false)
-                showError(it)
-            }
-        )
+        repoLoading.getUsersList()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
+                onSuccess = {
+                    showProgress(false)
+                    showListUser(it)
+                },
+                onError = {
+                    showProgress(false)
+                    showError(it)
+                }
+            )
     }
 
     private fun showListUser(listUser: List<UserEntity>) {
-        usersLiveData.mutable().postValue(listUser)
+        usersLiveData.mutable().onNext(listUser)
     }
 
     private fun showError(trow: Throwable) {
-        errorLiveData.mutable().postValue(trow)
+        errorLiveData.mutable().onNext(trow)
     }
 
     private fun showProgress(progress: Boolean) {
-        progressLiveData.mutable().postValue(progress)
+        progressLiveData.mutable().onNext(progress)
     }
 
-    override val errorLiveData: LiveData<Throwable> = SingleEventLiveData()
+    override val errorLiveData: Observable<Throwable> = BehaviorSubject.create()
 
-    override val usersLiveData: LiveData<List<UserEntity>> = MutableLiveData()
+    override val usersLiveData: Observable<List<UserEntity>> = BehaviorSubject.create()
 
-    override val progressLiveData: LiveData<Boolean> = MutableLiveData()
+    override val progressLiveData: Observable<Boolean> = BehaviorSubject.create()
 
-    private fun <T> LiveData<T>.mutable(): MutableLiveData<T> {
-        return this as? MutableLiveData<T> ?: throw IllegalStateException("ОШИБКА!")
+    private fun <T> Observable<T>.mutable(): Subject<T> {
+        return this as? Subject<T> ?: throw IllegalStateException("ОШИБКА!")
     }
 }
