@@ -18,6 +18,6 @@ interface RequestAPI {
     @GET(URL_API_END_POINT_USERS_DETAILING)
     fun getDetailingUsersGit(
         @Path("username") username: String,
-    ): Call<DTODetailingUserGit>
+    ): Single<DTODetailingUserGit>
 
 }

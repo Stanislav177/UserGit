@@ -43,12 +43,12 @@ class DetailingUserActivity : AppCompatActivity() {
     }
 
     private fun initViewModel() {
-        viewModel.getLiveData().observe(this, {
+        viewModel.getLiveData().subscribe{
             renderData(it)
-        })
-        viewModel.error.observe(this,{
+        }
+        viewModel.error.subscribe{
             showError(it)
-        })
+        }
         viewModel.startRequest(loginUser!!)
     }
 

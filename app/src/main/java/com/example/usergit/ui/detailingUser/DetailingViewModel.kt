@@ -2,21 +2,21 @@ package com.example.usergit.ui.detailingUser
 
 import android.os.Handler
 import android.os.Looper
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.usergit.data.APIRepoUsersDetailingImpl
 import com.example.usergit.domain.repos.RepoUserDetailing
 import com.example.usergit.ui.detailingUser.appState.AppStateDetailingUser
 import com.example.usergit.ui.detailingUser.appState.AppStateDetailingUserError
-import com.example.usergit.utils.SingleEventLiveDataError
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.subjects.BehaviorSubject
+import io.reactivex.rxjava3.subjects.Subject
 
 class DetailingViewModel(
-    private val liveData: MutableLiveData<AppStateDetailingUser> = MutableLiveData(),
+    private val liveData: Observable<AppStateDetailingUser> = BehaviorSubject.create(),
     private val repo: RepoUserDetailing = APIRepoUsersDetailingImpl(),
 ) : ViewModel(), AppStateDetailingUserError {
 
-    fun getLiveData(): LiveData<AppStateDetailingUser> {
+    fun getLiveData(): Observable<AppStateDetailingUser> {
         return liveData
     }
 
@@ -39,21 +39,21 @@ class DetailingViewModel(
     }
 
     private fun showError(it: Throwable) {
-        error.mutable().postValue(it)
+        error.mutable().onError(it)
     }
 
     private fun showListUser(it: AppStateDetailingUser) {
-        liveData.postValue(it)
+        liveData.mutable().onNext(it)
     }
 
     private fun showProgress(it: AppStateDetailingUser) {
-        liveData.postValue(it)
+        liveData.mutable().onNext(it)
     }
 
-    private fun <T> LiveData<T>.mutable(): MutableLiveData<T> {
-        return this as? MutableLiveData<T> ?: throw IllegalStateException("ОШИБКА!")
+    private fun <T> Observable<T>.mutable(): Subject<T> {
+        return this as? Subject<T> ?: throw IllegalStateException("ОШИБКА!")
     }
 
-    override val error: LiveData<Throwable> = SingleEventLiveDataError()
+    override val error: Observable<Throwable> = BehaviorSubject.create()
 
 }

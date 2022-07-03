@@ -2,6 +2,7 @@ package com.example.usergit.ui.detailingUser.appState
 
 import androidx.lifecycle.LiveData
 import com.example.usergit.data.DTODetailingUserGit
+import io.reactivex.rxjava3.core.Observable
 
 sealed class AppStateDetailingUser {
     data class LoadingProgress(val progress: Boolean) : AppStateDetailingUser()
@@ -9,6 +10,6 @@ sealed class AppStateDetailingUser {
 }
 
 interface AppStateDetailingUserError {
-    val error:LiveData<Throwable>
+    val error:Observable<Throwable>
 }
 
