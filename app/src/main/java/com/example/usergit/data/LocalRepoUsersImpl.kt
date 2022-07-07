@@ -4,7 +4,7 @@ import android.os.Handler
 import android.os.Looper
 import androidx.core.os.postDelayed
 import com.example.usergit.domain.UserEntity
-import com.example.usergit.domain.repos.RepoUsersList
+import com.example.usergit.domain.repos.usersList.RepoUsersList
 import io.reactivex.rxjava3.core.Single
 
 class LocalRepoUsersImpl : RepoUsersList {

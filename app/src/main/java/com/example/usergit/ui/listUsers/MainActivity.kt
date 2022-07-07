@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.usergit.app
+import com.example.usergit.data.CashRepoUsersListImpl
 import com.example.usergit.databinding.ActivityMainBinding
 import com.example.usergit.domain.UserEntity
 import com.example.usergit.ui.detailingUser.DetailingUserActivity
@@ -18,6 +19,10 @@ class MainActivity : AppCompatActivity(), OnClickListenerUser {
     private val adapterUsers = UsersAdapter(this)
     private lateinit var viewModelUsers: UserContract.ViewModel
     private val viewModelDisposable = CompositeDisposable()
+
+    private val cashUsersList by lazy {
+        CashRepoUsersListImpl(app.historyDataBase().historyUsersDao())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +47,6 @@ class MainActivity : AppCompatActivity(), OnClickListenerUser {
                 showProgress(it)
             }
         )
-
-
     }
 
     override fun onDestroy() {
@@ -53,7 +56,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerUser {
 
     private fun extractViewModel(): UserContract.ViewModel {
         return lastCustomNonConfigurationInstance as? UserContract.ViewModel ?: UsersViewModel(
-            app.repoUsersList)
+            app.repoUsersList, cashUsersList)
     }
 
     override fun onRetainCustomNonConfigurationInstance(): UserContract.ViewModel {

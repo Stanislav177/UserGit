@@ -14,7 +14,7 @@ data class DTOListUsersGit(
     val avatarURL: String,
     val url: String,
 ) : Parcelable {
-    fun toUserEntity() = UserEntity(id,login,avatarURL,url)
+    fun toUserEntity() = UserEntity(id, login, avatarURL, url)
 }
 
 
@@ -31,6 +31,6 @@ data class DTODetailingUserGit(
     @SerializedName("html_url")
     val url: String,
     val followers: Long,
-    val location: String,
-    val name: String,
+    val location: String = "null",
+    val name: String
 ) : Parcelable

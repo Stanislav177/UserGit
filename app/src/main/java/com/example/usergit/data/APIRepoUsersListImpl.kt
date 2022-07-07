@@ -2,7 +2,7 @@ package com.example.usergit.data
 
 import com.example.usergit.data.retrofit.RetrofitAPI
 import com.example.usergit.domain.UserEntity
-import com.example.usergit.domain.repos.RepoUsersList
+import com.example.usergit.domain.repos.usersList.RepoUsersList
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy
 

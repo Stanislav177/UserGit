@@ -1,4 +1,4 @@
-package com.example.usergit.domain.repos
+package com.example.usergit.domain.repos.usersList
 
 import com.example.usergit.domain.UserEntity
 import io.reactivex.rxjava3.core.Single
