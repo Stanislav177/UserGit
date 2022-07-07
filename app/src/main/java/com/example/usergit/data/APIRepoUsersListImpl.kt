@@ -1,11 +1,10 @@
 package com.example.usergit.data
 
-import com.example.usergit.domain.UserEntity
-import com.example.usergit.domain.repos.RepoUsersList
 import com.example.usergit.data.retrofit.RetrofitAPI
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.usergit.domain.UserEntity
+import com.example.usergit.domain.repos.usersList.RepoUsersList
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.kotlin.subscribeBy
 
 class APIRepoUsersListImpl : RepoUsersList {
 
@@ -15,29 +14,14 @@ class APIRepoUsersListImpl : RepoUsersList {
         onSuccess: (List<UserEntity>) -> Unit,
         onError: ((Throwable) -> Unit)?,
     ) {
-        requestAPI.getUsersGit().enqueue(
-            object : Callback<List<DTOListUsersGit>> {
-                override fun onResponse(
-                    call: Call<List<DTOListUsersGit>>,
-                    response: Response<List<DTOListUsersGit>>,
-                ) {
-                    if (response.isSuccessful) {
-                        if (response.body() == null) {
-                            //ERROR
-                        } else {
-                            response.body()?.let {
-                                onSuccess(converterDTOtoListUsers(it))
-                                onError!!.invoke(Throwable("Error"))
-                            }
-                        }
-                    }
-                }
-
-                override fun onFailure(call: Call<List<DTOListUsersGit>>, t: Throwable) {
-                    //ERROR
-                }
-            }
+        requestAPI.getUsersGit().subscribeBy(
+            onSuccess = { onSuccess(converterDTOtoListUsers(it)) },
+            onError = { onError!!.invoke(Throwable(it)) }
         )
+    }
+
+    override fun getUsersList(): Single<List<UserEntity>> = requestAPI.getUsersGit().map { users ->
+        users.map { it.toUserEntity() }
     }
 
     private fun converterDTOtoListUsers(it: List<DTOListUsersGit>): List<UserEntity> {

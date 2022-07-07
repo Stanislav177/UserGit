@@ -7,18 +7,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import coil.load
-import com.example.usergit.data.DTODetailingUserGit
+import com.example.usergit.app
 import com.example.usergit.databinding.ActivityDetailingUserBinding
+import com.example.usergit.domain.UserDetailingEntity
 import com.example.usergit.ui.detailingUser.appState.AppStateDetailingUser
 
 class DetailingUserActivity : AppCompatActivity() {
     lateinit var binding: ActivityDetailingUserBinding
     private var uri: Uri? = null
     private var loginUser: String? = null
-
-//    private val viewModel: DetailingViewModel by lazy {
-//        ViewModelProvider(this).get(DetailingViewModel::class.java)
-//    }
 
     private lateinit var viewModel: DetailingViewModel
 
@@ -39,16 +36,17 @@ class DetailingUserActivity : AppCompatActivity() {
 
     private fun extractViewModel(): DetailingViewModel {
         return lastCustomNonConfigurationInstance as? DetailingViewModel
-            ?: DetailingViewModel()
+            ?: DetailingViewModel(repo = app.repoUsersDetailing)
     }
 
     private fun initViewModel() {
-        viewModel.getLiveData().observe(this, {
+        viewModel.getLiveData().subscribe {
             renderData(it)
-        })
-        viewModel.error.observe(this,{
+        }
+        viewModel.error.subscribe {
             showError(it)
-        })
+        }
+
         viewModel.startRequest(loginUser!!)
     }
 
@@ -58,7 +56,7 @@ class DetailingUserActivity : AppCompatActivity() {
                 showProgress(appState.progress)
             }
             is AppStateDetailingUser.Success -> {
-                showUser(appState.dtoDetailingUserGit)
+                showUser(appState.detailingUserGit)
             }
         }
     }
@@ -75,7 +73,7 @@ class DetailingUserActivity : AppCompatActivity() {
         Toast.makeText(this, t.message, Toast.LENGTH_SHORT).show()
     }
 
-    private fun showUser(user: DTODetailingUserGit) {
+    private fun showUser(user: UserDetailingEntity) {
         with(binding) {
             uri = Uri.parse(user.url)
             nameUserDetailingActivity.text = user.name
