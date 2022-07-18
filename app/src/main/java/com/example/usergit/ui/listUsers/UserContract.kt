@@ -10,5 +10,6 @@ interface UserContract {
         val usersLiveData: Observable<List<UserEntity>>
         val progressLiveData: Observable<Boolean>
         fun onRefresh()
+        fun onLoadingCash()
     }
 }

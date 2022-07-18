@@ -2,15 +2,17 @@ package com.example.usergit.ui.listUsers
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.usergit.app
-import com.example.usergit.data.CashRepoUsersListImpl
+import com.example.usergit.data.room.CashRepoUsersListImpl
 import com.example.usergit.databinding.ActivityMainBinding
 import com.example.usergit.domain.UserEntity
 import com.example.usergit.ui.detailingUser.DetailingUserActivity
+import com.example.usergit.ui.utils.RxClick
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class MainActivity : AppCompatActivity(), OnClickListenerUser {
@@ -19,9 +21,15 @@ class MainActivity : AppCompatActivity(), OnClickListenerUser {
     private val adapterUsers = UsersAdapter(this)
     private lateinit var viewModelUsers: UserContract.ViewModel
     private val viewModelDisposable = CompositeDisposable()
+    private val rxButton by lazy {
+        binding.loadingUsersGitBtn
+    }
 
-    private val cashUsersList by lazy {
-        CashRepoUsersListImpl(app.historyDataBase().historyUsersDao())
+    private val rxClick = object : RxClick {
+        override fun rxOnClick(v: View) {
+            viewModelUsers.onRefresh()
+        }
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +39,8 @@ class MainActivity : AppCompatActivity(), OnClickListenerUser {
         initViews()
 
         initViewModel()
+
+
     }
 
     private fun initViewModel() {
@@ -51,12 +61,13 @@ class MainActivity : AppCompatActivity(), OnClickListenerUser {
 
     override fun onDestroy() {
         viewModelDisposable.dispose()
+        rxButton.stop()
         super.onDestroy()
     }
 
     private fun extractViewModel(): UserContract.ViewModel {
         return lastCustomNonConfigurationInstance as? UserContract.ViewModel ?: UsersViewModel(
-            app.repoUsersList, cashUsersList)
+            app.repoUsersList, app.cashUserList)
     }
 
     override fun onRetainCustomNonConfigurationInstance(): UserContract.ViewModel {
@@ -70,9 +81,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerUser {
     }
 
     private fun initViewBtn() {
-        binding.loadingUsersGitBtn.setOnClickListener {
-            viewModelUsers.onRefresh()
-        }
+        rxButton.rxBtnClickListener(rxButton, rxClick)
     }
 
     private fun showProgress(b: Boolean) {
@@ -88,6 +97,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerUser {
 
     private fun showError(throwable: Throwable) {
         Toast.makeText(this, throwable.message, Toast.LENGTH_SHORT).show()
+        viewModelUsers.onLoadingCash()
     }
 
     private fun initRecycler() {

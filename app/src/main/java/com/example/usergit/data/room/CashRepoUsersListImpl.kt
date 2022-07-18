@@ -1,9 +1,9 @@
-package com.example.usergit.data
+package com.example.usergit.data.room
 
 import com.example.usergit.domain.UserEntity
 import com.example.usergit.domain.repos.usersList.RepoUsersListCash
-import com.example.usergit.room.listUsers.HistoryUsersDao
-import com.example.usergit.room.listUsers.HistoryUsersList
+import com.example.usergit.data.room.listUsers.HistoryUsersDao
+import com.example.usergit.data.room.listUsers.HistoryUsersList
 
 class CashRepoUsersListImpl(private val cashListUsers: HistoryUsersDao) : RepoUsersListCash {
 

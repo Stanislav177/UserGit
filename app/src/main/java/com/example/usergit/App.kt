@@ -3,16 +3,17 @@ package com.example.usergit
 import android.app.Application
 import android.content.Context
 import androidx.room.Room
-import com.example.usergit.const.DB_NAME
-import com.example.usergit.data.RepoUsersDetailingImpl
 import com.example.usergit.data.APIRepoUsersListImpl
-import com.example.usergit.domain.repos.userDetailing.RepoUserDetailing
-import com.example.usergit.domain.repos.usersList.RepoUsersList
-import com.example.usergit.room.HistoryDataBase
+import com.example.usergit.data.APIRepoUsersDetailingImpl
+import com.example.usergit.data.room.CashRepoUsersListImpl
+import com.example.usergit.data.room.HistoryDataBase
+
+const val DB_NAME = "History.db"
 
 class App : Application() {
-    val repoUsersList: RepoUsersList by lazy { APIRepoUsersListImpl() }
-    val repoUsersDetailing: RepoUserDetailing by lazy { RepoUsersDetailingImpl(historyDataBase().historyDetailingUserDao()) }
+    val repoUsersList by lazy { APIRepoUsersListImpl() }
+    val repoUsersDetailing by lazy { APIRepoUsersDetailingImpl(historyDataBase().historyDetailingUserDao()) }
+    val cashUserList by lazy { CashRepoUsersListImpl(historyDataBase().historyListUsersDao()) }
 
     private var db: HistoryDataBase? = null
 

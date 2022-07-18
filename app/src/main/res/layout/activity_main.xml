@@ -7,7 +7,7 @@
     android:padding="@dimen/padding_main_activity"
     tools:context=".ui.listUsers.MainActivity">
 
-    <Button
+    <com.example.usergit.ui.utils.RxButton
         android:id="@+id/loading_users_git_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
