@@ -31,7 +31,6 @@ class APIRepoUsersListImpl : RepoUsersList {
             list.add(UserEntity(it[i].id, it[i].login, it[i].avatarURL, it[i].url))
         }
         return list
-
     }
 
 }

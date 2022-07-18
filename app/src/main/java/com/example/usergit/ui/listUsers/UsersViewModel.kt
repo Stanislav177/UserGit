@@ -1,6 +1,6 @@
 package com.example.usergit.ui.listUsers
 
-import com.example.usergit.data.CashRepoUsersListImpl
+import com.example.usergit.data.room.CashRepoUsersListImpl
 import com.example.usergit.domain.UserEntity
 import com.example.usergit.domain.repos.usersList.RepoUsersList
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -22,6 +22,10 @@ class UsersViewModel(
         flagOnRefresh = false
     }
 
+    override fun onLoadingCash() {
+        showListUser(repoCash.getAllCash())
+    }
+
     private fun loadingUser() {
         showProgress(true)
         repo.getUsersList()
@@ -32,12 +36,10 @@ class UsersViewModel(
                     showProgress(false)
                     showListUser(it)
                     saveCash(it)
-
                 },
                 onError = {
                     showProgress(false)
                     showError(it)
-                    showListUser(repoCash.getAllCash())
                 }
             )
     }

@@ -1,4 +1,4 @@
-package com.example.usergit.room.listUsers
+package com.example.usergit.data.room.listUsers
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -1,4 +1,4 @@
-package com.example.usergit.room.detailingUser
+package com.example.usergit.data.room.detailingUser
 
 import androidx.room.Dao
 import androidx.room.Insert

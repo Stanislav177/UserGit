@@ -4,13 +4,13 @@ import com.example.usergit.data.retrofit.RetrofitAPI
 import com.example.usergit.domain.UserDetailingEntity
 import com.example.usergit.domain.repos.userDetailing.RepoUserDetailing
 import com.example.usergit.domain.repos.userDetailing.RepoUserDetailingCash
-import com.example.usergit.room.detailingUser.HistoryDetailingUser
-import com.example.usergit.room.detailingUser.HistoryDetailingUserDao
+import com.example.usergit.data.room.detailingUser.HistoryDetailingUser
+import com.example.usergit.data.room.detailingUser.HistoryDetailingUserDao
 import com.example.usergit.ui.detailingUser.appState.AppStateDetailingUser
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.kotlin.subscribeBy
 
-class RepoUsersDetailingImpl(private val cashDetailingUser: HistoryDetailingUserDao) :
+class APIRepoUsersDetailingImpl(private val cashDetailingUser: HistoryDetailingUserDao) :
     RepoUserDetailing,
     RepoUserDetailingCash {
 
