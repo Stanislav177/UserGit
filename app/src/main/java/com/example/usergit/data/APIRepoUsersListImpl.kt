@@ -1,26 +1,24 @@
 package com.example.usergit.data
 
-import com.example.usergit.data.retrofit.RetrofitAPI
+import com.example.usergit.data.retrofit.RequestAPI
 import com.example.usergit.domain.UserEntity
 import com.example.usergit.domain.repos.usersList.RepoUsersList
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy
 
-class APIRepoUsersListImpl : RepoUsersList {
-
-    private val requestAPI by lazy { RetrofitAPI.getStartRetrofitAPI() }
+class APIRepoUsersListImpl(private val retrofitAPI: RequestAPI) : RepoUsersList {
 
     override fun getUsersList(
         onSuccess: (List<UserEntity>) -> Unit,
         onError: ((Throwable) -> Unit)?,
     ) {
-        requestAPI.getUsersGit().subscribeBy(
+        retrofitAPI.getUsersGit().subscribeBy(
             onSuccess = { onSuccess(converterDTOtoListUsers(it)) },
             onError = { onError!!.invoke(Throwable(it)) }
         )
     }
 
-    override fun getUsersList(): Single<List<UserEntity>> = requestAPI.getUsersGit().map { users ->
+    override fun getUsersList(): Single<List<UserEntity>> = retrofitAPI.getUsersGit().map { users ->
         users.map { it.toUserEntity() }
     }
 
@@ -32,5 +30,4 @@ class APIRepoUsersListImpl : RepoUsersList {
         }
         return list
     }
-
 }

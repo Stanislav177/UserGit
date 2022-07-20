@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.usergit.app
-import com.example.usergit.data.room.CashRepoUsersListImpl
 import com.example.usergit.databinding.ActivityMainBinding
 import com.example.usergit.domain.UserEntity
 import com.example.usergit.ui.detailingUser.DetailingUserActivity
@@ -21,6 +20,14 @@ class MainActivity : AppCompatActivity(), OnClickListenerUser {
     private val adapterUsers = UsersAdapter(this)
     private lateinit var viewModelUsers: UserContract.ViewModel
     private val viewModelDisposable = CompositeDisposable()
+
+    private val repoUsersList by lazy {
+        app.repoUsersList
+    }
+    private val cashUsersList by lazy {
+        app.cashUsersList
+    }
+
     private val rxButton by lazy {
         binding.loadingUsersGitBtn
     }
@@ -29,7 +36,6 @@ class MainActivity : AppCompatActivity(), OnClickListenerUser {
         override fun rxOnClick(v: View) {
             viewModelUsers.onRefresh()
         }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,10 +43,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerUser {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initViews()
-
         initViewModel()
-
-
     }
 
     private fun initViewModel() {
@@ -67,7 +70,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerUser {
 
     private fun extractViewModel(): UserContract.ViewModel {
         return lastCustomNonConfigurationInstance as? UserContract.ViewModel ?: UsersViewModel(
-            app.repoUsersList, app.cashUserList)
+            repoUsersList, cashUsersList)
     }
 
     override fun onRetainCustomNonConfigurationInstance(): UserContract.ViewModel {

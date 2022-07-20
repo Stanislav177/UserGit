@@ -16,15 +16,21 @@ class DetailingUserActivity : AppCompatActivity() {
     lateinit var binding: ActivityDetailingUserBinding
     private var uri: Uri? = null
     private var loginUser: String? = null
-
     private lateinit var viewModel: DetailingViewModel
+
+    private val repoUsersDetailing by lazy {
+        app.repoUsersDetailing
+    }
+    private val repoCashDetailingUser by lazy {
+        app.cashDetailingUser
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailingUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        loginUser = intent.getStringExtra("KEY")
 
+        loginUser = intent.getStringExtra("KEY")
         viewModel = extractViewModel()
         initViewModel()
         onOpenPageUser()
@@ -36,7 +42,8 @@ class DetailingUserActivity : AppCompatActivity() {
 
     private fun extractViewModel(): DetailingViewModel {
         return lastCustomNonConfigurationInstance as? DetailingViewModel
-            ?: DetailingViewModel(repo = app.repoUsersDetailing)
+            ?: DetailingViewModel(repoUserDetailing = repoUsersDetailing,
+                repoUserDetailingCash = repoCashDetailingUser)
     }
 
     private fun initViewModel() {
@@ -68,7 +75,6 @@ class DetailingUserActivity : AppCompatActivity() {
         }
     }
 
-
     private fun showError(t: Throwable) {
         Toast.makeText(this, t.message, Toast.LENGTH_SHORT).show()
     }
@@ -90,5 +96,4 @@ class DetailingUserActivity : AppCompatActivity() {
             inProgressBar!!.isVisible = b
         }
     }
-
 }
