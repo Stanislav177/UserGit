@@ -1,8 +1,9 @@
 package com.example.usergit.ui.listUsers
 
-import com.example.usergit.data.room.CashRepoUsersListImpl
+import androidx.lifecycle.ViewModel
 import com.example.usergit.domain.UserEntity
 import com.example.usergit.domain.repos.usersList.RepoUsersList
+import com.example.usergit.domain.repos.usersList.RepoUsersListCash
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.subscribeBy
@@ -11,8 +12,8 @@ import io.reactivex.rxjava3.subjects.Subject
 
 class UsersViewModel(
     private val repo: RepoUsersList,
-    private val repoCash: CashRepoUsersListImpl,
-) : UserContract.ViewModel {
+    private val repoCash: RepoUsersListCash,
+) : UserContract.ViewModel,ViewModel() {
 
     private var flagOnRefresh = true
 

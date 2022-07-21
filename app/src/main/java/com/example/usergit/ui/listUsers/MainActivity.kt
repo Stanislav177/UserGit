@@ -7,26 +7,19 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.usergit.app
 import com.example.usergit.databinding.ActivityMainBinding
 import com.example.usergit.domain.UserEntity
 import com.example.usergit.ui.detailingUser.DetailingUserActivity
 import com.example.usergit.ui.utils.RxClick
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity(), OnClickListenerUser {
 
     lateinit var binding: ActivityMainBinding
     private val adapterUsers = UsersAdapter(this)
-    private lateinit var viewModelUsers: UserContract.ViewModel
     private val viewModelDisposable = CompositeDisposable()
-
-    private val repoUsersList by lazy {
-        app.repoUsersList
-    }
-    private val cashUsersList by lazy {
-        app.cashUsersList
-    }
+    private val viewModelUsers: UsersViewModel by viewModel()
 
     private val rxButton by lazy {
         binding.loadingUsersGitBtn
@@ -47,7 +40,6 @@ class MainActivity : AppCompatActivity(), OnClickListenerUser {
     }
 
     private fun initViewModel() {
-        viewModelUsers = extractViewModel()
 
         viewModelDisposable.addAll(
             viewModelUsers.usersLiveData.subscribe() {
@@ -66,15 +58,6 @@ class MainActivity : AppCompatActivity(), OnClickListenerUser {
         viewModelDisposable.dispose()
         rxButton.stop()
         super.onDestroy()
-    }
-
-    private fun extractViewModel(): UserContract.ViewModel {
-        return lastCustomNonConfigurationInstance as? UserContract.ViewModel ?: UsersViewModel(
-            repoUsersList, cashUsersList)
-    }
-
-    override fun onRetainCustomNonConfigurationInstance(): UserContract.ViewModel {
-        return viewModelUsers
     }
 
     private fun initViews() {
