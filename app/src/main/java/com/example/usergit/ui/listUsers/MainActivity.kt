@@ -7,19 +7,20 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.usergit.app
 import com.example.usergit.databinding.ActivityMainBinding
 import com.example.usergit.domain.UserEntity
 import com.example.usergit.ui.detailingUser.DetailingUserActivity
 import com.example.usergit.ui.utils.RxClick
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), OnClickListenerUser {
-
     lateinit var binding: ActivityMainBinding
     private val adapterUsers = UsersAdapter(this)
     private val viewModelDisposable = CompositeDisposable()
-    private val viewModelUsers: UsersViewModel by viewModel()
+    @Inject
+    lateinit var viewModelUsers: UsersViewModel
 
     private val rxButton by lazy {
         binding.loadingUsersGitBtn
@@ -35,6 +36,9 @@ class MainActivity : AppCompatActivity(), OnClickListenerUser {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        app.appComponent.inject(this)
+
         initViews()
         initViewModel()
     }

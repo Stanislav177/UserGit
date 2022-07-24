@@ -6,19 +6,19 @@ import com.example.usergit.domain.repos.usersList.RepoUsersList
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.subscribeBy
 
-class APIRepoUsersListImpl(private val retrofitAPI: RequestAPI) : RepoUsersList {
+class APIRepoUsersListImpl(private val requestAPI: RequestAPI) : RepoUsersList {
 
     override fun getUsersList(
         onSuccess: (List<UserEntity>) -> Unit,
         onError: ((Throwable) -> Unit)?,
     ) {
-        retrofitAPI.getUsersGit().subscribeBy(
+        requestAPI.getUsersGit().subscribeBy(
             onSuccess = { onSuccess(converterDTOtoListUsers(it)) },
             onError = { onError!!.invoke(Throwable(it)) }
         )
     }
 
-    override fun getUsersList(): Single<List<UserEntity>> = retrofitAPI.getUsersGit().map { users ->
+    override fun getUsersList(): Single<List<UserEntity>> = requestAPI.getUsersGit().map { users ->
         users.map { it.toUserEntity() }
     }
 
