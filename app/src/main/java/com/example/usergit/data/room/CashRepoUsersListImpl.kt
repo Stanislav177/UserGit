@@ -5,18 +5,18 @@ import com.example.usergit.domain.repos.usersList.RepoUsersListCash
 import com.example.usergit.data.room.listUsers.HistoryUsersDao
 import com.example.usergit.data.room.listUsers.HistoryUsersList
 
-class CashRepoUsersListImpl(private val cashListUsers: HistoryUsersDao) : RepoUsersListCash {
+class CashRepoUsersListImpl(private val cashHistoryUsersDao: HistoryUsersDao) : RepoUsersListCash {
 
     override fun getAllCash(): List<UserEntity> {
-        return converterCashToUsersListEntity(cashListUsers.all())
+        return converterCashToUsersListEntity(cashHistoryUsersDao.all())
     }
 
     override fun saveListCash(list: List<UserEntity>) {
-        cashListUsers.insert(converterListEntityToCash(list))
+        cashHistoryUsersDao.insert(converterListEntityToCash(list))
     }
 
     override fun deleteCash() {
-        cashListUsers.delete()
+        cashHistoryUsersDao.delete()
     }
 
 
