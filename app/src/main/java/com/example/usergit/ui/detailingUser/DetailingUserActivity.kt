@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import coil.load
+import com.example.dil.inject
 import com.example.usergit.app
 import com.example.usergit.databinding.ActivityDetailingUserBinding
 import com.example.usergit.domain.UserDetailingEntity
@@ -18,14 +19,13 @@ class DetailingUserActivity : AppCompatActivity() {
     private var uri: Uri? = null
     private var loginUser: String? = null
 
-    @Inject
-    lateinit var viewModel: DetailingViewModel
+    private val viewModel: DetailingViewModel by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailingUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        app.appComponent.inject(this)
+        //app.appComponent.inject(this)
         loginUser = intent.getStringExtra("KEY")
         initViewModel()
         onOpenPageUser()

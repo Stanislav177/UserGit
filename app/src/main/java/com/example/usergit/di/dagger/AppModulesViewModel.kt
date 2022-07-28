@@ -19,7 +19,7 @@ class AppModulesViewModel {
         usersRepo: RepoUsersList,
         usersRepoCash: RepoUsersListCash,
     ): UsersViewModel {
-        return UsersViewModel(usersRepo, usersRepoCash)
+        return UsersViewModel()
     }
 
     @Provides
@@ -28,7 +28,9 @@ class AppModulesViewModel {
         repoUserDetailing: RepoUserDetailing,
         repoUserDetailingCash: RepoUserDetailingCash,
     ): DetailingViewModel {
-        return DetailingViewModel(repoUserDetailing = repoUserDetailing,
-            repoUserDetailingCash = repoUserDetailingCash)
+        return DetailingViewModel(
+            repoUserDetailing = repoUserDetailing,
+            repoUserDetailingCash = repoUserDetailingCash
+        )
     }
 }

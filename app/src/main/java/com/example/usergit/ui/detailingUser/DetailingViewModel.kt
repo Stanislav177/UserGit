@@ -3,6 +3,7 @@ package com.example.usergit.ui.detailingUser
 import android.os.Handler
 import android.os.Looper
 import androidx.lifecycle.ViewModel
+import com.example.dil.inject
 import com.example.usergit.domain.repos.userDetailing.RepoUserDetailing
 import com.example.usergit.domain.repos.userDetailing.RepoUserDetailingCash
 import com.example.usergit.ui.detailingUser.appState.AppStateDetailingUser
@@ -16,7 +17,9 @@ class DetailingViewModel(
     private val liveData: Observable<AppStateDetailingUser> = BehaviorSubject.create(),
     private val repoUserDetailing: RepoUserDetailing,
     private val repoUserDetailingCash: RepoUserDetailingCash,
-) : ViewModel(), AppStateDetailingUserError {
+
+    ) : ViewModel(), AppStateDetailingUserError {
+
 
     private lateinit var loginUser: String
 
