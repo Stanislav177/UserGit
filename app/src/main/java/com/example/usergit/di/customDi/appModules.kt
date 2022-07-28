@@ -1,6 +1,8 @@
-package com.example.usergit.di
+package com.example.usergit.di.customDi
 
 import androidx.room.Room
+import com.example.dil.Modules
+import com.example.dil.getInline
 import com.example.usergit.data.APIRepoUsersDetailingImpl
 import com.example.usergit.data.APIRepoUsersListImpl
 import com.example.usergit.data.retrofit.RequestAPI
@@ -14,67 +16,40 @@ import com.example.usergit.domain.repos.usersList.RepoUsersListCash
 import com.example.usergit.ui.detailingUser.DetailingViewModel
 import com.example.usergit.ui.listUsers.UsersViewModel
 import com.google.gson.GsonBuilder
-import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
-import org.koin.core.qualifier.named
-import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-val appNetworkModule = module {
+val appModules = Modules {
 
-    single<RepoUsersList> {
-        APIRepoUsersListImpl(get())
-    }
+    val url = "https://api.github.com"
+    val nameDB = "History.db"
 
-    single<RepoUserDetailing> {
-        APIRepoUsersDetailingImpl(get())
-    }
-
-    single(named("url")) {
-        "https://api.github.com"
-    }
-
-    single<Retrofit> {
-        Retrofit.Builder().baseUrl(get<String>(named("url")))
+    singleton<Retrofit> {
+        Retrofit.Builder().baseUrl(url)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create()).build()
     }
-    single<RequestAPI> { get<Retrofit>().create(RequestAPI::class.java) }
-}
+    singleton<RequestAPI> { getInline<Retrofit>().create(RequestAPI::class.java) }
 
-val appRoomModule = module {
-    single { "History.db" }
-
-    single<RepoUsersListCash> {
-        CashRepoUsersListImpl(get())
-    }
-
-    single<RepoUserDetailingCash> {
-        CashRepoDetailingUserImpl(get())
-    }
-
-    single<HistoryDataBase?> {
-        Room.databaseBuilder(androidContext(), HistoryDataBase::class.java, get())
+    singleton {
+        Room.databaseBuilder(contextApp.applicationContext, HistoryDataBase::class.java, nameDB)
             .allowMainThreadQueries()
             .build()
     }
-    single {
-        get<HistoryDataBase>().historyListUsersDao()
-    }
-    single {
-        get<HistoryDataBase>().historyDetailingUserDao()
-    }
-}
+    singleton { getInline<HistoryDataBase>().historyListUsersDao() }
+    singleton { getInline<HistoryDataBase>().historyDetailingUserDao() }
 
-val appViewModels = module {
-    viewModel {
-        UsersViewModel()
-    }
+    singleton<RepoUsersList>("API") { APIRepoUsersListImpl(getInline()) }
+    singleton<RepoUsersListCash>("CASH") { CashRepoUsersListImpl(getInline()) }
+
+    singleton<RepoUserDetailing> { APIRepoUsersDetailingImpl(getInline()) }
+    singleton<RepoUserDetailingCash> { CashRepoDetailingUserImpl(getInline()) }
+
+    viewModel { UsersViewModel() }
     viewModel {
         DetailingViewModel(
-            repoUserDetailingCash = get(), repoUserDetailing = get()
-        )
+            repoUserDetailing = getInline(),
+            repoUserDetailingCash = getInline())
     }
 }

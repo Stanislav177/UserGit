@@ -1,6 +1,7 @@
 package com.example.usergit.ui.listUsers
 
 import androidx.lifecycle.ViewModel
+import com.example.dil.inject
 import com.example.usergit.domain.UserEntity
 import com.example.usergit.domain.repos.usersList.RepoUsersList
 import com.example.usergit.domain.repos.usersList.RepoUsersListCash
@@ -10,12 +11,11 @@ import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import io.reactivex.rxjava3.subjects.Subject
 
-class UsersViewModel(
-    private val repo: RepoUsersList,
-    private val repoCash: RepoUsersListCash,
-) : UserContract.ViewModel,ViewModel() {
+class UsersViewModel : UserContract.ViewModel, ViewModel() {
 
     private var flagOnRefresh = true
+    private val repo: RepoUsersList by inject("API")
+    private val repoCash: RepoUsersListCash by inject("CASH")
 
     override fun onRefresh() {
         if (flagOnRefresh)
