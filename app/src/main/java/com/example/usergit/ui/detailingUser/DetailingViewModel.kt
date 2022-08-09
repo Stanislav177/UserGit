@@ -16,10 +16,8 @@ import io.reactivex.rxjava3.subjects.Subject
 class DetailingViewModel(
     private val liveData: Observable<AppStateDetailingUser> = BehaviorSubject.create(),
     private val repoUserDetailing: RepoUserDetailing,
-    private val repoUserDetailingCash: RepoUserDetailingCash,
-
+    private val repoUserDetailingCash: RepoUserDetailingCash
     ) : ViewModel(), AppStateDetailingUserError {
-
 
     private lateinit var loginUser: String
 
@@ -62,7 +60,6 @@ class DetailingViewModel(
                 }
             )
         }
-
     }
 
     private fun showError(it: Throwable) {
@@ -92,5 +89,4 @@ class DetailingViewModel(
     }
 
     override val error: Observable<Throwable> = BehaviorSubject.create()
-
 }

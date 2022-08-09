@@ -13,17 +13,29 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UserGit">
         <activity
-            android:name=".ui.detailingUser.DetailingUserActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.listUsers.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+        <activity
+            android:name=".ui.detailingUser.DetailingUserActivity"
+            android:exported="true">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name=".utils.MyIntentService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+    </application>
 </manifest>

@@ -36,9 +36,10 @@ android {
 }
 
 dependencies {
+    implementation project(path: ':dil')
 
     implementation 'com.google.dagger:dagger:2.43'
-    implementation project(path: ':dil')
+
     kapt 'com.google.dagger:dagger-compiler:2.43'
 
     implementation 'io.insert-koin:koin-android:3.2.0'
