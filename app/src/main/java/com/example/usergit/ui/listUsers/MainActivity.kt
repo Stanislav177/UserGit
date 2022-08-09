@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity(), OnClickListenerUser {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         //app.appComponent.inject(this)
 
         initViews()
@@ -101,5 +102,8 @@ class MainActivity : AppCompatActivity(), OnClickListenerUser {
         val intent = Intent(this, DetailingUserActivity::class.java)
         intent.putExtra("KEY", loginUser)
         startActivity(intent)
+//        val intent = Intent(this, MyIntentService::class.java)
+//        intent.putExtra("LOGIN", "mojombo")
+//        startService(intent)
     }
 }

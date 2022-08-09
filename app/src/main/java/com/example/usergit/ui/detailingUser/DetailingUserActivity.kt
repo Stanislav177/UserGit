@@ -1,23 +1,27 @@
 package com.example.usergit.ui.detailingUser
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import coil.load
 import com.example.dil.inject
-import com.example.usergit.app
 import com.example.usergit.databinding.ActivityDetailingUserBinding
 import com.example.usergit.domain.UserDetailingEntity
 import com.example.usergit.ui.detailingUser.appState.AppStateDetailingUser
-import javax.inject.Inject
+import com.example.usergit.utils.MyIntentService
 
 class DetailingUserActivity : AppCompatActivity() {
     lateinit var binding: ActivityDetailingUserBinding
     private var uri: Uri? = null
     private var loginUser: String? = null
+    private val B_CAST = "com.example.usergit.ui.detailingUser_BROAD"
 
     private val viewModel: DetailingViewModel by inject()
 
@@ -27,8 +31,26 @@ class DetailingUserActivity : AppCompatActivity() {
         setContentView(binding.root)
         //app.appComponent.inject(this)
         loginUser = intent.getStringExtra("KEY")
-        initViewModel()
+        //initViewModel()
         onOpenPageUser()
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(
+            broadcast, IntentFilter(B_CAST)
+        )
+        startService()
+    }
+
+    private fun startService() {
+        val intent = Intent(this, MyIntentService::class.java)
+        intent.putExtra("LOGIN", loginUser)
+        startService(intent)
+    }
+
+    private val broadcast = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            showUser(intent!!.getParcelableExtra("DTO")!!)
+            showProgress(false)
+        }
     }
 
     private fun initViewModel() {

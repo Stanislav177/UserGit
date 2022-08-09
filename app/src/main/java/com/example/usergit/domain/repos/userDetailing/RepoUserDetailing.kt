@@ -9,6 +9,6 @@ interface RepoUserDetailing {
     )
 
     fun getLoginUser(
-        login: String,
+        login: String
     )
 }
