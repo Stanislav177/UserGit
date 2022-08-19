@@ -15,10 +15,9 @@ class APIRepoUsersDetailingImpl(
 
     override fun getDetailingUser(
         onSuccess: (AppStateDetailingUser) -> Unit,
-        onError: ((Throwable) -> Unit)?,
+        onError: ((Throwable) -> Unit)?
     ) {
-        requestAPI.getDetailingUsersGit(loginUser).observeOn(AndroidSchedulers.mainThread())
-            .subscribeBy(
+        requestAPI.getDetailingUsersGit(loginUser).subscribeBy(
                 onSuccess = {
                     onSuccess(AppStateDetailingUser.Success(converterToUserDetailing(it)))
                 },

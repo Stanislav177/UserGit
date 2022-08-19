@@ -2,6 +2,7 @@ package com.example.usergit.ui.listUsers
 
 import androidx.lifecycle.ViewModel
 import com.example.dil.inject
+import com.example.usergit.data.room.listUsers.HistoryUsersList
 import com.example.usergit.domain.UserEntity
 import com.example.usergit.domain.repos.usersList.RepoUsersList
 import com.example.usergit.domain.repos.usersList.RepoUsersListCash
@@ -14,8 +15,8 @@ import io.reactivex.rxjava3.subjects.Subject
 class UsersViewModel : UserContract.ViewModel, ViewModel() {
 
     private var flagOnRefresh = true
-    private val repo: RepoUsersList by inject("API")
-    private val repoCash: RepoUsersListCash by inject("CASH")
+    private val repoUserList: RepoUsersList by inject("API")
+    private val repoUsersListCash: RepoUsersListCash by inject("CASH")
 
     override fun onRefresh() {
         if (flagOnRefresh)
@@ -24,16 +25,16 @@ class UsersViewModel : UserContract.ViewModel, ViewModel() {
     }
 
     override fun onLoadingCash() {
-        showListUser(repoCash.getAllCash())
+        showListUser(repoUsersListCash.getAllCash())
     }
 
     private fun loadingUser() {
         showProgress(true)
-        repo.getUsersList()
+        repoUserList.getUsersList()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
                 onSuccess = {
-                    repoCash.deleteCash()
+                    repoUsersListCash.deleteCash()
                     showProgress(false)
                     showListUser(it)
                     saveCash(it)
@@ -58,7 +59,10 @@ class UsersViewModel : UserContract.ViewModel, ViewModel() {
     }
 
     private fun saveCash(listUser: List<UserEntity>) {
-        repoCash.saveListCash(listUser)
+        val listUseCash =
+            listUser.map { HistoryUsersList(it.id, it.login, it.urlAvatar, it.urlUser) }
+
+        repoUsersListCash.saveListCash(listUseCash)
     }
 
     override val errorLiveData: Observable<Throwable> = BehaviorSubject.create()
