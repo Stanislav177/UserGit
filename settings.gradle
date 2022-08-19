@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "UserGit"
 include ':app'
+include ':dil'
